@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:tool="http://www.springframework.org/schema/tool"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/cache
+       http://www.springframework.org/schema/cache/spring-cache.xsd
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/jee
+       http://www.springframework.org/schema/jee/spring-jee.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/util
+       http://www.springframework.org/schema/util/spring-util.xsd
+       http://www.springframework.org/schema/tool
+       http://www.springframework.org/schema/tool/spring-tool.xsd">
+
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName">
+            <value>com.mysql.jdbc.Driver</value>
+        </property>
+        <property name="url">
+            <value>jdbc:mysql://127.0.0.1:3306/campus?useUnicode=true&amp;characterEncoding=UTF-8</value>
+        </property>
+        <property name="username">
+            <value>root</value>
+        </property>
+        <property name="password">
+            <value>143133</value>
+        </property>
+    </bean>
+
+    <!-- 注入Data Source到Session Factory -->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="configLocation">
+            <value>classpath:hibernate.cfg.xml</value>
+        </property>
+        <!-- hibernate 映射文件 -->
+        <!--<property name="mappingResources">
+            <list>
+                <value>entity/User.java.hbm.xml</value>
+                <value>entity/Admin.hbm.xml</value>
+                <value>entity/Category.hbm.xml</value>
+                <value>entity/Book.hbm.xml</value>
+                <value>entity/Cart.hbm.xml</value>
+                <value>entity/Pack.hbm.xml</value>
+                <value>entity/Order.hbm.xml</value>
+            </list>
+        </property>-->
+        <property name="dataSource" ref="dataSource"></property>
+
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">
+                    org.hibernate.dialect.MySQL5Dialect
+                </prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.format_sql">false</prop>
+                <!--<prop key="hibernate.hbm2ddl.auto">None</prop>-->
+                <prop key="hibernate.current_session_context_class">
+                    org.springframework.orm.hibernate4.SpringSessionContext
+                </prop>
+                <prop key="hibernate.search.lucene_version">LUCENE_36</prop>
+                <prop key="hibernate.search.default.directory_provider">
+                    org.hibernate.search.store.impl.FSDirectoryProvider
+                </prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="transactionManager"
+          class="org.springframework.orm.hibernate4.HibernateTransactionManager"
+          p:sessionFactory-ref="sessionFactory" />
+
+    <!--<bean id="transactionInterceptor"
+          class="org.springframework.transaction.interceptor.TransactionInterceptor"
+          p:transactionManager-ref="transactionManager">
+        <property name="transactionAttributes">
+            <props>
+                <prop key="get*">PROPAGATION_REQUIRED,readOnly</prop>
+                <prop key="find*">PROPAGATION_REQUIRED,readOnly</prop>
+                <prop key="select*">PROPAGATION_REQUIRED,readOnly</prop>
+                <prop key="query*">PROPAGATION_REQUIRED,readOnly</prop>
+                <prop key="sync*">PROPAGATION_REQUIRED</prop>
+                <prop key="finish*">PROPAGATION_REQUIRED</prop>
+                <prop key="add*">PROPAGATION_REQUIRED</prop>
+                <prop key="insert*">PROPAGATION_REQUIRED</prop>
+                <prop key="edit*">PROPAGATION_REQUIRED</prop>
+                <prop key="update*">PROPAGATION_REQUIRED</prop>
+                <prop key="save*">PROPAGATION_REQUIRED</prop>
+                <prop key="remove*">PROPAGATION_REQUIRED</prop>
+                <prop key="delete*">PROPAGATION_REQUIRED</prop>
+                <prop key="*">PROPAGATION_REQUIRED,-java.lang.Exception</prop>
+            </props>
+        </property>
+    </bean>-->
+
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="save*" propagation="REQUIRED" />
+            <tx:method name="add*" propagation="REQUIRED" />
+            <tx:method name="create*" propagation="REQUIRED" />
+            <tx:method name="insert*" propagation="REQUIRED" />
+            <tx:method name="update*" propagation="REQUIRED" />
+            <tx:method name="merge*" propagation="REQUIRED" />
+            <tx:method name="del*" propagation="REQUIRED" />
+            <tx:method name="remove*" propagation="REQUIRED" />
+            <tx:method name="put*" propagation="REQUIRED" />
+            <tx:method name="use*" propagation="REQUIRED" />
+            <tx:method name="get*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="count*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="find*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="list*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="*" read-only="false" />
+        </tx:attributes>
+    </tx:advice>
+
+    <bean id="userDao" class="Dao.UserDao">
+        <property name="sessionFactory">
+            <ref bean="sessionFactory"/>
+        </property>
+    </bean>
+    <bean id="activityDao" class="Dao.ActivityDao">
+        <property name="sessionFactory">
+            <ref bean="sessionFactory"/>
+        </property>
+    </bean>
+    <bean id="teamDao" class="Dao.TeamDao">
+        <property name="sessionFactory">
+            <ref bean="sessionFactory"/>
+        </property>
+    </bean>
+    <bean id="commentDao" class="Dao.CommentDao">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <bean id="messageDao" class="Dao.MessageDao">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <bean id="frontpageDao" class="Dao.FrontpageDao">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <bean id="point" class="Recommand.Point">
+
+    </bean>
+
+    <bean id="recommandEngine" class="Recommand.RecommandEngine">
+
+    </bean>
+    <bean id="kmeans" class="Recommand.Kmeans">
+        <property name="activityDao" ref="activityDao"/>
+    </bean>
+
+
+    <bean id="userService" class="Service.UserService">
+        <property name="userDao">
+            <ref bean="userDao" />
+        </property>
+    </bean>
+
+    <bean id="Register" class="Action.Register" scope="prototype">
+        <property name="userDao" ref="userDao"/>
+    </bean>
+    <bean id="Login" class="Action.Login" scope="prototype">
+        <property name="userService" ref="userService"/>
+    </bean>
+    <bean id="GetActivity" class="Action.GetActivity" scope="prototype">
+        <property name="activityDao" ref="activityDao"/>
+        <property name="userDao" ref="userDao"/>
+    </bean>
+    <bean id="ActivityAction" class="Action.ActivityAction" scope="prototype">
+        <property name="activityDao" ref="activityDao"/>
+    </bean>
+    <bean id="UserActivity" class="Action.UserActivity" scope="prototype">
+        <property name="activityDao" ref="activityDao"/>
+    </bean>
+    <bean id="GetTagAndGroup" class="Action.GetTagAndGroup" scope="prototype">
+        <property name="activityDao" ref="activityDao"/>
+    </bean>
+    <bean id="SaveActivity" class="Action.SaveActivity" scope="prototype">
+        <property name="activityDao" ref="activityDao"/>
+    </bean>
+    <bean id="GetIndex" class="Action.GetIndex" scope="prototype">
+        <property name="activityDao" ref="activityDao"/>
+        <property name="messageDao" ref="messageDao"/>
+        <property name="frontpageDao" ref="frontpageDao"/>
+        <property name="recommandEngine" ref="recommandEngine"/>
+    </bean>
+    <bean id="createTeam" class="Action.createTeam" scope="prototype">
+        <property name="teamDao" ref="teamDao"/>
+    </bean>
+    <bean id="UserTeam" class="Action.UserTeam" scope="prototype">
+        <property name="teamDao" ref="teamDao"/>
+        <property name="userDao" ref="userDao"/>
+    </bean>
+    <bean id="UpdateTeam" class="Action.UpdateTeam" scope="prototype">
+        <property name="teamDao" ref="teamDao"/>
+    </bean>
+    <bean id="getTeamMem" class="Action.getTeamMem" scope="prototype">
+        <property name="teamDao" ref="teamDao"/>
+     </bean>
+    <bean id="editUser" class="Action.EditUser" scope="prototype">
+        <property name="userDao" ref="userDao"/>
+    </bean>
+    <bean id="updateActivity" class="Action.UpdateActivity" scope="prototype">
+        <property name="activityDao" ref="activityDao"/>
+    </bean>
+    <bean id="getActMem" class="Action.GetActMem" scope="prototype">
+        <property name="activityDao" ref="activityDao"/>
+    </bean>
+    <bean id="userComment" class="Action.UserComment" scope="prototype">
+        <property name="commentDao" ref="commentDao"/>
+    </bean>
+    <bean id="searchActivity" class="Action.SearchActivity" scope="prototype">
+        <property name="activityDao" ref="activityDao"/>
+        <property name="teamDao" ref="teamDao"/>
+    </bean>
+    <bean id="getFrontPage" class="Action.GetFrontPage" scope="prototype">
+        <property name="frontpageDao" ref="frontpageDao"/>
+    </bean>
+    <bean id="deleteFrontPage" class="Action.DeleteFrontPage" scope="prototype">
+        <property name="frontpageDao" ref="frontpageDao"/>
+    </bean>
+    <bean id="addFrontPage" class="Action.AddFrontPage" scope="prototype">
+        <property name="frontpageDao" ref="frontpageDao"/>
+    </bean>
+    <bean id="clusterUser" class="Action.ClusterUser" scope="prototype">
+        <property name="activityDao" ref="activityDao"/>
+        <property name="kmeans" ref="kmeans"/>
+    </bean>
+
+</beans>

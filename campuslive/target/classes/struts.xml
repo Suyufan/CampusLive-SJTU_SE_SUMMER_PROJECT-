@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+    <constant name="struts.devMode" value="true" />
+    <constant name="struts.objectFactory" value="spring"></constant>
+    <constant name="struts.i18n.encoding" value="utf-8"></constant>
+
+    <package name="campus" extends="struts-default">
+        <action name="register" class="Action.Register">
+            <result type="redirectAction">
+                <param name="actionName">index</param>
+            </result>
+            <result name="error">register.jsp</result>
+        </action>
+        <action name="login" class="Action.Login">
+            <result type="redirectAction">
+                <param name="actionName">index</param>
+            </result>
+            <result name="error">error.jsp</result>
+        </action>
+        <action name="getAct" class="Action.GetActivity">
+            <result>actinfo.jsp</result>
+        </action>
+        <action name="join" class="Action.ActivityAction" method="joinActivity">
+            <result type="redirectAction">
+                <param name="actionName">notStarted</param>
+                <param name="userId">${userId}</param>
+            </result>
+        </action>
+        <action name="leave" class="Action.ActivityAction" method="leaveActivity">
+            <result>myactivity.jsp</result>
+        </action>
+        <action name="notStarted" class="Action.UserActivity" method="getNotStartedActivity">
+            <result>myactivity.jsp?type=1</result>
+        </action>
+        <action name="finished" class="Action.UserActivity" method="getFinishedActivity">
+            <result>myactivity.jsp?type=2</result>
+        </action>
+        <action name="all" class="Action.UserActivity" method="getAllActivity">
+            <result>myactivity.jsp?type=3</result>
+        </action>
+        <action name="created" class="Action.UserActivity" method="getCreatedActivity">
+            <result>myactivity.jsp?type=4</result>
+        </action>
+        <action name="getTagAndGroup" class="Action.GetTagAndGroup">
+            <result>createActivity.jsp</result>
+        </action>
+        <action name="saveActivity" class="Action.SaveActivity">
+            <result type="redirectAction">
+                <param name="actionName">created</param>
+                <param name="userId">${userId}</param>
+            </result>
+        </action>
+        <action name="index" class="Action.GetIndex">
+            <result>index.jsp</result>
+        </action>
+        <action name="getAllActivity" class="Action.GetActivity" method="getAllActivity">
+            <result>allActivity.jsp</result>
+        </action>
+        <action name="createTeam" class="Action.createTeam">
+            <result type="redirectAction">
+                <param name="actionName">getCreatedTeam</param>
+                <param name="userId">${userId}</param>
+            </result>
+        </action>
+        <action name="getCreatedTeam" class="Action.UserTeam" method="getCreatedTeam">
+            <result>myteam.jsp</result>
+        </action>
+        <action name="getTeamInfo" class="Action.UserTeam" method="getTeam">
+            <result>editTeam.jsp</result>
+        </action>
+        <action name="updateTeam" class="Action.UpdateTeam">
+            <result type="redirectAction">
+                <param name="actionName">getTeamInfo</param>
+                <param name="teamId">${teamId}</param>
+            </result>
+        </action>
+        <action name="logout" class="Action.Logout">
+            <result>preIndex.jsp</result>
+        </action>
+        <action name="getMem" class="Action.getTeamMem">
+            <result>teamMem.jsp</result>
+        </action>
+        <action name="addMem" class="Action.UserTeam" method="addMem">
+            <result type="redirectAction">
+                <param name="actionName">getMem</param>
+                <param name="teamId">${teamId}</param>
+            </result>
+        </action>
+        <action name="removeMem" class="Action.UserTeam" method="removeMem">
+            <result type="redirectAction">
+                <param name="actionName">getMem</param>
+                <param name="teamId">${teamId}</param>
+            </result>
+        </action>
+        <action name="getActMem" class="Action.GetActMem">
+            <result>myActMem.jsp</result>
+        </action>
+        <action name="getOneAct" class="Action.GetActivity" method="getActivity">
+            <result>editAct.jsp</result>
+        </action>
+        <action name="updateActivity" class="Action.UpdateActivity">
+            <result type="redirectAction">
+                <param name="actionName">created</param>
+                <param name="userId">${userId}</param>
+            </result>
+        </action>
+        <action name="updateUser" class="Action.EditUser">
+            <result>index.jsp</result>
+        </action>
+        <action name="saveComment" class="Action.UserComment" method="saveComment">
+            <result type="redirectAction">
+                <param name="actionName">getAct</param>
+                <param name="actId">${actId}</param>
+            </result>
+        </action>
+        <action name="getUnread" class="Action.GetMessage" method="getUnreadMessage">
+            <result>mymessage.jsp?type=0</result>
+        </action>
+        <action name="getRead" class="Action.GetMessage" method="getReadMessage">
+            <result>mymessage.jsp?type=1</result>
+        </action>
+        <action name="getSend" class="Action.GetMessage" method="getSendMessage">
+            <result>mymessage.jsp?type=2</result>
+        </action>
+        <action name="search" class="Action.SearchActivity">
+            <result>search.jsp</result>
+        </action>
+        <action name="adminLogin" class="Action.AdminLogin">
+            <result>/admin/pages/index.jsp</result>
+            <result name="error">/admin/pages/login.jsp</result>
+        </action>
+        <action name="getAllComment" class="Action.UserComment" method="getAllComment">
+            <result>comment.jsp</result>
+        </action>
+        <action name="getUsers" class="Action.UserActivity" method="getAllUser">
+            <result>allUser.jsp</result>
+        </action>
+        <action name="getUncheckedAct" class="Action.UserActivity" method="getUncheckedAct">
+            <result>activity.jsp?type=1</result>
+        </action>
+        <action name="getPassedAct" class="Action.UserActivity" method="getPassedAct">
+            <result>activity.jsp?type=2</result>
+        </action>
+        <action name="getDeniedAct" class="Action.UserActivity" method="getDeniedAct">
+            <result>activity.jsp?type=3</result>
+        </action>
+        <action name="adminActInfo" class="Action.GetActivity">
+            <result>adminActInfo.jsp</result>
+        </action>
+        <action name="getTeamAct" class="Action.GetTeamAct">
+            <result>teamAct.jsp</result>
+        </action>
+        <action name="getFrontPage" class="Action.GetFrontPage">
+            <result>/admin/pages/frontPage.jsp</result>
+        </action>
+        <action name="addFrontPage" class="Action.AddFrontPage">
+            <result type="redirectAction">
+                <param name="actionName">getFrontPage</param>
+            </result>
+        </action>
+        <action name="clusterUser" class="Action.ClusterUser">
+            <result>cluster.jsp</result>
+        </action>
+
+
+        <action name="deleteFrontPage" class="Action.DeleteFrontPage">
+
+        </action>
+
+
+        <action name="deny" class="Action.AdminActivity" method="denyActivity">
+
+        </action>
+        <action name="pass" class="Action.AdminActivity" method="passActivity">
+
+        </action>
+        <action name="updateUser" class="Action.EditUser">
+
+        </action>
+        <action name="deleteComment" class="Action.UserComment" method="deleteComment">
+
+        </action>
+        <action name="deleteAct" class="Action.DeleteAct">
+
+        </action>
+        <action name="scoreAct" class="Action.ScoreAct">
+
+        </action>
+        <action name="sendMessage" class="Action.SendMessage">
+
+        </action>
+        <action name="setRead" class="Action.GetMessage" method="setRead">
+
+        </action>
+        <action name="reportComment" class="Action.UserComment" method="reportComment">
+
+        </action>
+
+        <action name="uploadFile" class="Action.FileUpload" method="getImagInfo">
+
+        </action>
+
+    </package>
+</struts>

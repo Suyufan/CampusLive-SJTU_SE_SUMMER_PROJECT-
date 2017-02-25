@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="MySQL - campus@localhost" uuid="2320a208-eff6-4d5f-a76a-018951cb50bb">
+    <database-info product="MySQL" version="5.7.11-log" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.35 ( Revision: 5fb9c5849535c13917c2cf9baaece6ef9693ef27 )">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
+    <database-model serializer="dbm" rdbms="MYSQL" format-version="2.5">
+      <schema id="1" name="campus"/>
+      <table id="2" parent="1" name="activity"/>
+      <table id="3" parent="1" name="user"/>
+      <table id="4" parent="1" name="actmem"/>
+      <table id="5" parent="1" name="acttag"/>
+      <table id="6" parent="1" name="tag"/>
+      <table id="7" parent="1" name="team"/>
+      <table id="8" parent="1" name="teammem"/>
+      <table id="9" parent="1" name="usercomment"/>
+      <table id="10" parent="1" name="message"/>
+      <table id="11" parent="1" name="admin"/>
+      <table id="12" parent="1" name="frontpage"/>
+      <table id="13" parent="1" name="actrate"/>
+      <routine id="14" parent="1" name="updateStat">
+        <routine-kind>PROCEDURE</routine-kind>
+      </routine>
+      <column id="15" parent="2" name="actId">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+        <sequence-identity>1</sequence-identity>
+      </column>
+      <column id="16" parent="2" name="actName">
+        <mandatory>1</mandatory>
+        <data-type>varchar(80)</data-type>
+      </column>
+      <column id="17" parent="2" name="actLocation">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="18" parent="2" name="actDesc">
+        <mandatory>1</mandatory>
+        <data-type>text</data-type>
+      </column>
+      <column id="19" parent="2" name="userId">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="20" parent="2" name="groupId">
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="21" parent="2" name="actStat">
+        <comment>0    审核通过，未开始报名&#xd;
+1    正在报名&#xd;
+2    人数已满&#xd;
+3    报名已结束，活动未开始&#xd;
+4    活动正在进行&#xd;
+5    活动已结束&#xd;
+6    审核中&#xd;
+7    审核不通过</comment>
+        <mandatory>1</mandatory>
+        <data-type>int(1) unsigned</data-type>
+        <default-expression>&apos;6&apos;</default-expression>
+      </column>
+      <column id="22" parent="2" name="currentMember">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned zerofill</data-type>
+        <default-expression>&apos;0000000000&apos;</default-expression>
+      </column>
+      <column id="23" parent="2" name="maxMember">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="24" parent="2" name="actStartTime">
+        <mandatory>1</mandatory>
+        <data-type>datetime</data-type>
+      </column>
+      <column id="25" parent="2" name="actEndTime">
+        <mandatory>1</mandatory>
+        <data-type>datetime</data-type>
+      </column>
+      <column id="26" parent="2" name="regStartTime">
+        <mandatory>1</mandatory>
+        <data-type>datetime</data-type>
+      </column>
+      <column id="27" parent="2" name="regEndTime">
+        <mandatory>1</mandatory>
+        <data-type>datetime</data-type>
+      </column>
+      <column id="28" parent="2" name="postPath">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <index id="29" parent="2" name="host">
+        <columns>userId</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <index id="30" parent="2" name="host_group">
+        <columns>groupId</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <key id="31" parent="2" name="PRIMARY">
+        <columns>actId</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="32" parent="2" name="host">
+        <columns>userId</columns>
+        <ref-key>~.user.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="33" parent="2" name="host_group">
+        <columns>groupId</columns>
+        <ref-key>~.team.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="34" parent="3" name="userId">
+        <mandatory>1</mandatory>
+        <data-type>int(20) unsigned</data-type>
+        <sequence-identity>1</sequence-identity>
+      </column>
+      <column id="35" parent="3" name="username">
+        <mandatory>1</mandatory>
+        <data-type>varchar(20)</data-type>
+      </column>
+      <column id="36" parent="3" name="password">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="37" parent="3" name="email">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="38" parent="3" name="school">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="39" parent="3" name="telephone">
+        <data-type>varchar(11)</data-type>
+      </column>
+      <index id="40" parent="3" name="username">
+        <columns>username</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <key id="41" parent="3" name="PRIMARY">
+        <columns>userId</columns>
+        <primary>1</primary>
+      </key>
+      <column id="42" parent="4" name="userId">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="43" parent="4" name="actId">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <index id="44" parent="4" name="act">
+        <columns>actId</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <key id="45" parent="4" name="PRIMARY">
+        <columns>userId
+actId</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="46" parent="4" name="act">
+        <columns>actId</columns>
+        <ref-key>~.activity.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="47" parent="4" name="mem">
+        <columns>userId</columns>
+        <ref-key>~.user.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <trigger id="48" parent="4" name="addmember">
+        <trig-events>I</trig-events>
+        <trig-turn>AFTER_ROW</trig-turn>
+      </trigger>
+      <trigger id="49" parent="4" name="deletemember">
+        <trig-events>D</trig-events>
+        <trig-turn>AFTER_ROW</trig-turn>
+      </trigger>
+      <column id="50" parent="5" name="actId">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="51" parent="5" name="tagId">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <index id="52" parent="5" name="id of tag">
+        <columns>tagId</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <key id="53" parent="5" name="PRIMARY">
+        <columns>actId
+tagId</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="54" parent="5" name="id of act">
+        <columns>actId</columns>
+        <ref-key>~.activity.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="55" parent="5" name="id of tag">
+        <columns>tagId</columns>
+        <ref-key>~.tag.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="56" parent="6" name="tagId">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+        <sequence-identity>1</sequence-identity>
+      </column>
+      <column id="57" parent="6" name="tagName">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <key id="58" parent="6" name="PRIMARY">
+        <columns>tagId</columns>
+        <primary>1</primary>
+      </key>
+      <column id="59" parent="7" name="teamId">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+        <sequence-identity>1</sequence-identity>
+      </column>
+      <column id="60" parent="7" name="teamName">
+        <mandatory>1</mandatory>
+        <data-type>varchar(50)</data-type>
+      </column>
+      <column id="61" parent="7" name="userId">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="62" parent="7" name="numOfMembers">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+        <default-expression>&apos;1&apos;</default-expression>
+      </column>
+      <column id="63" parent="7" name="teamDesc">
+        <mandatory>1</mandatory>
+        <data-type>text</data-type>
+      </column>
+      <index id="64" parent="7" name="user in charge">
+        <columns>userId</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <key id="65" parent="7" name="PRIMARY">
+        <columns>teamId</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="66" parent="7" name="user in charge">
+        <columns>userId</columns>
+        <ref-key>~.user.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="67" parent="8" name="teamId">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="68" parent="8" name="userId">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <index id="69" parent="8" name="member">
+        <columns>userId</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <key id="70" parent="8" name="PRIMARY">
+        <columns>teamId
+userId</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="71" parent="8" name="group">
+        <columns>teamId</columns>
+        <ref-key>~.team.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="72" parent="8" name="member">
+        <columns>userId</columns>
+        <ref-key>~.user.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <trigger id="73" parent="8" name="jointeam">
+        <trig-events>I</trig-events>
+        <trig-turn>AFTER_ROW</trig-turn>
+      </trigger>
+      <trigger id="74" parent="8" name="leaveteam">
+        <trig-events>D</trig-events>
+        <trig-turn>AFTER_ROW</trig-turn>
+      </trigger>
+      <column id="75" parent="9" name="commentId">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+        <sequence-identity>1</sequence-identity>
+      </column>
+      <column id="76" parent="9" name="commentWord">
+        <mandatory>1</mandatory>
+        <data-type>text</data-type>
+      </column>
+      <column id="77" parent="9" name="commentTime">
+        <mandatory>1</mandatory>
+        <data-type>datetime</data-type>
+        <default-expression>&apos;CURRENT_TIMESTAMP&apos;</default-expression>
+      </column>
+      <column id="78" parent="9" name="userId">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="79" parent="9" name="username">
+        <mandatory>1</mandatory>
+        <data-type>varchar(20)</data-type>
+      </column>
+      <column id="80" parent="9" name="actId">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="81" parent="9" name="responseId">
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="82" parent="9" name="reportTimes">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+        <default-expression>&apos;0&apos;</default-expression>
+      </column>
+      <index id="83" parent="9" name="activityofcomment">
+        <columns>actId</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <index id="84" parent="9" name="nameofuser">
+        <columns>username</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <index id="85" parent="9" name="responseofcomment">
+        <columns>responseId</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <index id="86" parent="9" name="userofcomment">
+        <columns>userId</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <key id="87" parent="9" name="PRIMARY">
+        <columns>commentId</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="88" parent="9" name="activityofcomment">
+        <columns>actId</columns>
+        <ref-key>~.activity.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="89" parent="9" name="nameofuser">
+        <columns>username</columns>
+        <ref-key>campus.user(username)</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="90" parent="9" name="responseofcomment">
+        <columns>responseId</columns>
+        <ref-key>~.user.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="91" parent="9" name="userofcomment">
+        <columns>userId</columns>
+        <ref-key>~.user.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="92" parent="10" name="messageId">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+        <sequence-identity>1</sequence-identity>
+      </column>
+      <column id="93" parent="10" name="senderName">
+        <mandatory>1</mandatory>
+        <data-type>varchar(20)</data-type>
+      </column>
+      <column id="94" parent="10" name="receiverName">
+        <mandatory>1</mandatory>
+        <data-type>varchar(20)</data-type>
+      </column>
+      <column id="95" parent="10" name="messageContent">
+        <mandatory>1</mandatory>
+        <data-type>text</data-type>
+      </column>
+      <column id="96" parent="10" name="messageStat">
+        <comment>0： 代表未读消息  1：代表已读消息</comment>
+        <mandatory>1</mandatory>
+        <data-type>int(1)</data-type>
+        <default-expression>&apos;0&apos;</default-expression>
+      </column>
+      <column id="97" parent="10" name="sendTime">
+        <mandatory>1</mandatory>
+        <data-type>datetime</data-type>
+        <default-expression>&apos;CURRENT_TIMESTAMP&apos;</default-expression>
+      </column>
+      <index id="98" parent="10" name="receiver">
+        <columns>receiverName</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <index id="99" parent="10" name="sender">
+        <columns>senderName</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <key id="100" parent="10" name="PRIMARY">
+        <columns>messageId</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="101" parent="10" name="receiver">
+        <columns>receiverName</columns>
+        <ref-key>campus.user(username)</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="102" parent="10" name="sender">
+        <columns>senderName</columns>
+        <ref-key>campus.user(username)</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="103" parent="11" name="adminId">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+        <sequence-identity>1</sequence-identity>
+      </column>
+      <column id="104" parent="11" name="adminName">
+        <mandatory>1</mandatory>
+        <data-type>varchar(20)</data-type>
+      </column>
+      <column id="105" parent="11" name="password">
+        <mandatory>1</mandatory>
+        <data-type>varchar(20)</data-type>
+      </column>
+      <column id="106" parent="11" name="email">
+        <mandatory>1</mandatory>
+        <data-type>varchar(80)</data-type>
+      </column>
+      <column id="107" parent="11" name="telephone">
+        <mandatory>1</mandatory>
+        <data-type>varchar(11)</data-type>
+      </column>
+      <index id="108" parent="11" name="adminName">
+        <columns>adminName</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <key id="109" parent="11" name="PRIMARY">
+        <columns>adminId</columns>
+        <primary>1</primary>
+      </key>
+      <column id="110" parent="12" name="frontId">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+        <sequence-identity>1</sequence-identity>
+      </column>
+      <key id="111" parent="12" name="PRIMARY">
+        <columns>frontId</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="112" parent="12" name="actfront">
+        <columns>frontId</columns>
+        <ref-key>~.activity.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="113" parent="13" name="userId">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="114" parent="13" name="actId">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="115" parent="13" name="score">
+        <mandatory>1</mandatory>
+        <data-type>int(1)</data-type>
+        <default-expression>&apos;0&apos;</default-expression>
+      </column>
+      <column id="116" parent="13" name="scoretime">
+        <mandatory>1</mandatory>
+        <data-type>datetime</data-type>
+        <default-expression>&apos;CURRENT_TIMESTAMP&apos;</default-expression>
+      </column>
+      <index id="117" parent="13" name="rateuser">
+        <columns>userId</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <key id="118" parent="13" name="PRIMARY">
+        <columns>actId
+userId</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="119" parent="13" name="rateact">
+        <columns>actId</columns>
+        <ref-key>~.activity.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="120" parent="13" name="rateuser">
+        <columns>userId</columns>
+        <ref-key>~.user.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+    </database-model>
+  </data-source>
+</component>
